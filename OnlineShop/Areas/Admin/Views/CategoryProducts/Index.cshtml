@@ -1,0 +1,92 @@
+﻿@model Model.EF.ProductCategory
+@{
+    var listCategoryproduct = (List<Model.EF.ProductCategory>)ViewBag.ProductCategory;
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+@section header{
+    Danh sách loại sản phẩm
+
+}
+<div class="row">
+
+    <div class="row" style="padding-left:10px;padding-right:10px;">
+        @using (Html.BeginForm())
+        {
+            <table id="example" class="table table-striped table-bordered" style="width:100%">
+              
+                    <thead>
+                        <tr>
+
+                            <th>
+                                <input type="checkbox" id="check-all-header" />
+
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ID)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CreatedDate)
+                            </th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in listCategoryproduct)
+
+                        {
+
+
+                            <tr>
+
+                                <td><input type="checkbox" name="ids" value="@item.ID" /></td>
+                                <td>@item.ID</td>
+                                <td>@item.Name</td>
+                                <td>@item.CreatedDate</td>
+                                <td>
+                                    <button type="button" class="btn delete-asset btn-danger btn-sm" onclick="form.action = '/Admin/WareHouses/Delete/@item.ID'" data-toggle="modal" data-target="#confirmDelete" data-title="Delete item @item.ID" data-message="Are you sure you want to delete item @item.ID ?">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                    </button>
+                                    @*<a href="/Admin/WareHouses/Detail/@item.Id">Detail</a>*@
+                                    <button id="supplier-detail" onclick="form.action = '/Admin/WareHouses/Detail/@item.ID'" class="btn btn-info btn-sm"><i class="fa fa-info"></i></button>
+                                </td>
+
+                            </tr>
+                        }
+
+
+
+                    </tbody>
+
+                </table>
+                <button class="btn btn-lg btn-danger" type="button" onclick="form.action = '##'" data-toggle="modal" data-target="#confirmDelete" data-title="Delete item item" data-message="Are you sure you want to delete selected item ?">
+                    Xóa đã chọn
+                    <i class="glyphicon glyphicon-trash"></i>
+                </button>
+                }
+</div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+        $("#check-all-header").click(function () {
+            var checkedStatus = this.checked;
+            $('#example tbody tr').find('td:first :checkbox').each(function () {
+                $(this).prop('checked', checkedStatus);
+            });
+
+        });
+    });
+
+</script>
+
+
+
